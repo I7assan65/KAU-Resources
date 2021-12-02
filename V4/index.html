@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>KAU Resources</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+<script>
+
+    // ============= ibrahim script =============
+
+    function UploadFile() {
+      var reader = new FileReader();
+      var file = document.getElementById('attach').files[0];
+      reader.onload = function(){
+        document.getElementById('fileContent').value=reader.result;
+        document.getElementById('filename').value=file.name;
+        document.getElementById('uploadForm').submit();
+      }
+      reader.readAsDataURL(file);
+    }
+
+    var majorObject = { //add other majors and course like "major": ["course1", "course2"],
+  "AE": ["AE300", "AE302", "AE303", "AE311", "AE331", "AE333", "AE362", "AE371", "AE390", "AE412", "AE414", "AE432", "AE434", "AE436",
+  "AE463", "AE472", "AE499"],
+
+  "CE": ["CE201", "CE202", "CE321", "CE332", "CE333", "CE340", "CE341", "CE342", "CE352", "CE353", "CE371", "CE381", "CE390",
+  "CE401", "CE422", "CE434", "CE440", "CE442", "CE461", "CE482", "CE499"],
+
+  "ChE": ["ChE201", "ChE210", "ChE301", "ChE302", "ChE311", "ChE321", "ChE331", "ChE332", "ChE333", "ChE334","ChE390", 
+  "ChE430", "ChE441", "ChE442", "ChE453", "ChE454", "ChE456", "ChE499"],
+
+  "EE": ["EE202", "EE251/250", "EE300", "EE301", "EE302", "EE303", "EE305", "EE306", "EE311", "EE312", "EE321", "EE331", "EE332", "EE341", 
+  "EE351", "EE360", "EE361", "EE364", "EE366", "EE367", "EE370", "EE372", "EE374", "EE404", "EE405", "EE413", "EE421", "EE423", "EE425", 
+  "EE441", "EE442", "EE451", "EE453", "EE454", "EE460", "EE462", "EE463", "EE470", "EE471", "EE472", "EE474", "EE499"], 
+
+  "IE": ["IE202", "IE256", "IE311", "IE321", "IE322", "IE323", "IE331", "IE332", "IE341", "IE342", "IE351", "IE352",
+  "IE390", "IE395", "IE400", "IE411","IE422", "IE431", "IE432", "IE441", "IE451", "IE453", "IE499"],
+
+  "MENG": ["MENG130", "MENG204", "MENG262", "MENG270", "MENG310", "MENG332", "MENG364", "MENG366", "MENG390",
+  "MENG410", "MENG412", "MENG434", "MENG436", "MENG452", "MENG470", "MENG472", "MENG499"],
+
+  "MEP":["MEP261", "MEP290", "MEP360", "MEP361", "MEP365", "MEP370", "MEP390", "MEP451", "MEP460", "MEP473", "MEP474",
+  "MEP481", "MEP482", "MEP492", "MEP499" ],
+
+  "MINE": ["MINE300", "MINE301", "MINE302", "MINE303", "MINE311", "MINE312", "MINE322", "MINE323", "MINE330", "MINE342", "MINE390",
+  "MINE401", "MINE402", "MINE422", "MINE423", "MINE451", "MINE499" ],
+
+  "NE": ["NE301", "NE302", "NE303", "NE304", "NE307", "NE311", "NE321", "NE330", "NE340", "NE341", "NE351", "NE360", "NE370", 
+  "NE371", "NE372", "NE390", "NE402", "NE411", "NE441", "NE450", "NE451", "NE453", "NE454", "NE456", "NE470", "NE471", "NE472",
+  "NE473", "NE474", "NE489", "NE499"]
+}
+window.onload = function() {
+  var majorSel = document.getElementById("major");
+  var courseSel = document.getElementById("course");
+  var chapterSel = document.getElementById("chapter");
+  for (var x in majorObject) {
+    majorSel.options[majorSel.options.length] = new Option(x, x);
+  }
+  majorSel.onchange = function() {
+    //empty Chapters- and courses- dropdowns
+    
+    courseSel.length = 1;
+    
+    
+    var z = majorObject[majorSel.value];
+    console.log(z);
+    for (var i = 0; i < z.length; i++) {
+      courseSel.options[courseSel.options.length] = new Option(z[i], z[i]);
+    } 
+  }  
+}
+    // ============= info script =============
+
+    $(document).ready(function() {
+    $("#do_login").click(function() { 
+       closeLoginInfo();
+       $(this).parent().find('span').css("display","none");
+       $(this).parent().find('span').removeClass("i-save");
+       $(this).parent().find('span').removeClass("i-warning");
+       $(this).parent().find('span').removeClass("i-close");
+       
+        var proceed = true;
+        $("#login_form input").each(function(){
+            
+            if(!$.trim($(this).val())){
+                $(this).parent().find('span').addClass("i-warning");
+            	$(this).parent().find('span').css("display","block");  
+                proceed = false;
+            }
+        });
+       
+        if(proceed) //everything looks good! proceed...
+        {
+            $(this).parent().find('span').addClass("i-save");
+            $(this).parent().find('span').css("display","block");
+        }
+    });
+    
+    //reset previously results and hide all message on .keyup()
+    $("#login_form input").keyup(function() { 
+        $(this).parent().find('span').css("display","none");
+    });
+ 
+  openLoginInfo();
+  setTimeout(closeLoginInfo, 1000);
+});
+
+function openLoginInfo() {
+    $(document).ready(function(){ 
+    	$('.b-form').css("opacity","0.01");
+      $('.box-form').css("left","-37%");
+      $('.box-info').css("right","-37%");
+    });
+}
+
+function closeLoginInfo() {
+    $(document).ready(function(){ 
+    	$('.b-form').css("opacity","1");
+    	$('.box-form').css("left","0px");
+      $('.box-info').css("right","-5px"); 
+    });
+}
+
+$(window).on('resize', function(){
+      closeLoginInfo();
+});
+    </script>
+<!--end script-->
+
+
+    <div class='box'>
+        <div class='box-form'>
+            <div class='box-login-tab'></div>
+            <div class='box-login-title'>
+                <div class='i i-login'></div><h2>KAU Src</h2>
+            </div>
+            <div class='box-login'>
+                <div class='fieldset-body' id='login_form'>
+                    <button onclick="openLoginInfo();" class='b b-form i i-more' title='Mais Informações'></button>
+                
+                    <form id="uploadForm" action="https://script.google.com/macros/s/AKfycbwKNrxPq3UvrI9KO1AFz4YcZBrIydjn5MC6pZS59Z7y-_5zuSe_Z1Z0Jz6gaV_XnvoZ/exec" method="POST">
+                        <input type="hidden" value="" name="fileContent" id="fileContent">
+                        <input type="hidden" value="" name="filename" id="filename">
+                
+                        <div id="i-major">
+                            <p class='field'>
+                                <label> Department : </label>
+                                <select required name="major" id="major">
+                                    <option value="" selected="selected">Select Department</option>
+                                </select>
+                            <span id='valida' class='i i-warning'></span>
+                            </p>
+                        </div>
+
+                        <div id="i-course">
+                            <p class='field'>
+                                <label> Course :</label>   
+                                <select required name="course" id="course">
+                                    <option value="" selected="selected"> Select Department First</option>
+                                </select>
+                                <span id='valida' class='i i-warning'></span>
+                            </p>
+                        </div>
+                
+                        <div id="i-type">
+                        <p class='field'>
+                                <label> FileType :</label> 
+                                <select required name="type" id="type">
+                                    <option value="" selected="selected">Select Type</option>
+                                    <option value="Slide">Slide</option>
+                                    <option value="TestBank">TestBank</option>
+                                    <option value="Quiz">Quiz</option>
+                                    <option value="Project">Project</option>
+                                    <option value="Assignment">Assignment</option>
+                                    <option value="Tutorial">Tutorial</option>
+                                    <option value="Lab">Lab</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            <span id='valida' class='i i-close'></span>
+                            </p>
+                        </div>
+
+                        <div id="i-note">
+                            <p class='field'>
+                                <label> Note :</label>   
+                               <input id="note"  name="note" placeholder="Please write your note " value="" type="text">
+                                <span id='valida' class='i i-warning'></span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <input required id="attach" name="attach" type="file"/>
+                        </div> 
+                        <input value="Submit" id="do_login" type="submit" onclick="UploadFile();" />
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class='box-info'>
+                <p><button onclick="closeLoginInfo();" class='b b-info i i-left' title='Back to Sign In'></button><h3>Need Help?</h3>
+                </p>
+            <div class='line-wh'></div>
+            <button onclick="" class='b-support' title='Forgot Password?'> Forgot Password?</button>
+            <button onclick="" class='b-support' title='Contact Support'> Contact Support</button>
+                <div class='line-wh'></div>
+            <button onclick="" class='b-cta' title='Sign up now!'> CREATE ACCOUNT</button>
+        </div>
+
+    </div>
+
+
+ 
+    <!-- partial -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
